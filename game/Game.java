@@ -1,14 +1,9 @@
 package game;
 
-
 import javax.swing.*;
-
 import function.*;
-
 import java.awt.event.*;
-import java.io.ObjectInputFilter.Status;
 import java.awt.*;
-
 
 class Game extends JPanel implements ActionListener {
 
@@ -137,18 +132,10 @@ class Game extends JPanel implements ActionListener {
 
         // |Charater drawing
         g.drawImage(Wolf, px_wolf, py_wolf,this);
-
         g.drawImage(Hunter, px_hunter, py_hunter, this);
-
         g.drawImage(player, px_player, py_player, this);
 
         g.drawString(count_graphics + "", 1000, 30);
-
-        
-        // |map character position
-        int map_p[][] = player_position();
-        int wolf_p[][] = wolf_position();
-        int hunter_p[][] = hunter_position();
 
         switch (state_dice) {
             case "none":
