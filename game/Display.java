@@ -25,10 +25,7 @@ public class Display extends JFrame implements ActionListener {
     public Display() {
         newMenu("newgame");
         setting();
-
-        // |set sound welcome
-        usWelcome = new USound("Neverland");
-        usWelcome.start();
+        
     }
 
     void setting() {
@@ -74,6 +71,10 @@ public class Display extends JFrame implements ActionListener {
 
         time = new Timer(6, this);
         time.start();
+
+        // |set sound welcome
+        usWelcome = new USound("Neverland");
+        usWelcome.start();
     }
 
     public void newTutorial(String status) {
@@ -83,8 +84,6 @@ public class Display extends JFrame implements ActionListener {
         SwingUtilities.updateComponentTreeUI(this);
     }
 
-    
-
     public void newCongrats(String status) {
         congrats = new Congrats(status, this);
         this.add(congrats);
@@ -92,9 +91,6 @@ public class Display extends JFrame implements ActionListener {
         SwingUtilities.updateComponentTreeUI(this);
 
     }
-
-    
-
 
     public void actionPerformed(ActionEvent e) {
         if (Menu.status_tutorial == "newtutorial") {
@@ -116,7 +112,7 @@ public class Display extends JFrame implements ActionListener {
         if (Game.status == "congrats") {
             removeGame();
             newCongrats("none");
-            Game.state_dice = "none";
+            Game.status = "none";
         }
         if (Congrats.status == "newmenu") {
             removeCongrats();

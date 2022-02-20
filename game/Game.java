@@ -58,7 +58,7 @@ class Game extends JPanel implements ActionListener {
     //hunter position
     int hunter_p[][] = hunter_position();
     int px_hunter = hunter_p[0][0];
-    int py_hunter = hunter_p[0][1];
+    int py_hunter = hunter_p[0][1]+10;
     
     //graphics
     protected Graphics g;    
@@ -143,7 +143,7 @@ class Game extends JPanel implements ActionListener {
             case "next":
                 random = (int) Math.round(Math.random() * 5 + 1);
                 g.drawString("random: " + random, 1000, 50);
-                frame = (random * 25) + 75;
+                frame = (random * 20) + 75;
                 state_dice = "beingNext";
                 System.out.println("next");
                 Dice = new SetImg("Dice","Dice","roll").get().getImage();
@@ -157,15 +157,15 @@ class Game extends JPanel implements ActionListener {
                 if (frame > 0) {
                     frame--;
                     
-                    if (frame-50 > (random * 25)) {
+                    if (frame-50 > (random * 20)) {
                         b1.setIcon(new SetImg("Button","roll_2_187x60").get());
                         repaint();
 
-                    } else if (frame > (random * 25)) {
+                    } else if (frame > (random * 20)) {
                         b1.setIcon(new SetImg("Button","roll_1_187x60").get());
                         repaint();
 
-                    } else if (frame == (random * 25)) {
+                    } else if (frame == (random * 20)) {
                         if (random == 1) {
                             Dice = new SetImg("Dice","Dice1").get().getImage(); 
                         } else if (random == 2){
@@ -182,10 +182,8 @@ class Game extends JPanel implements ActionListener {
                         repaint();
 
                     } else { //animation walk
-                        count = 30;
-                        if (count == 30) {
-                            status = "congrats";
-                        } else if (frame % 25 == 0) {
+                        //count = 30;
+                        if (frame % 20 == 0) {
                             usFootstep.start();
                             if (count < 5||(count < 18 && count > 12)||(count < 30 && count > 24)) {
                                 player = new SetImg("Character","Walk","Right").get().getImage();
@@ -201,8 +199,10 @@ class Game extends JPanel implements ActionListener {
                             count++;
                             repaint();
                         }
-                        
-
+                        if (count >= 30) {
+                            usGame.stop(true);
+                            status = "congrats";
+                        }
                     }
 
                     if(frame == 0){// move end
@@ -211,8 +211,6 @@ class Game extends JPanel implements ActionListener {
                             state_dice = "setquiz";
                         }
                     }
-
-                    
                 } else { 
                     update_pos();
                     repaint();
@@ -287,7 +285,8 @@ class Game extends JPanel implements ActionListener {
                         count = 23;
                         px_player = map_p[count][0];
                         py_player = map_p[count][1];
-                        count++;  
+                        count++;
+                        update_pos();  
                     }
                 } else if (count == 23){
                     if (Anw == 2) {
@@ -305,6 +304,7 @@ class Game extends JPanel implements ActionListener {
                     } 
                     // hunter action
                 }
+                
                 if(Anw_click == "done"){
                     btn1.setIcon(img1);
                     btn2.setIcon(img1);
