@@ -1,24 +1,11 @@
+package game;
+
 import javax.swing.*;
+
+import function.SetImg;
+
 import java.awt.*;
 import java.awt.event.*;
-
-//private void removeCongrats() {
-//    this.remove(congrats);
-//    this.getContentPane().repaint();
-//}
-
-//public void newCongrats(String status) {
-//    congrats = new Congrats(status, this);
-//    this.add(congrats);
-//    congrats.requestFocus();
-//    SwingUtilities.updateComponentTreeUI(this); 
-//}
-
-//if (Congrats.status == "newmenu") {
-//    removeCongrats();
-//    newMenu("newgame");
-//    Congrats.status = "none";
-//}
 
 class Congrats extends JPanel implements ActionListener {
     ImageIcon congrats,home;
@@ -33,9 +20,8 @@ class Congrats extends JPanel implements ActionListener {
 
     Congrats(String status,Display display) {
         setBackground(Color.white);
-        congrats = new ImageIcon("CongratPage.jpg");
-        home = new ImageIcon("home1.png"); 
-        background = congrats.getImage();
+        home = new SetImg("Button","Home1").get(); 
+        background = new SetImg("Board","CongratPage").get().getImage();
         home1 = new JButton(home);
         home1.setBounds(470, 630, 282, 89);
         home1.setBorderPainted(false);
@@ -61,22 +47,24 @@ class Congrats extends JPanel implements ActionListener {
         g.drawImage(background, 0, 0, 1200, 800, this);
 
         switch(status){  
+            case("none"):
+                break;
             case ("next") :
-                frame = 30;
+                frame = 20;
                 status = "event";
                 break;
             case ("event") :
                 if (frame > 0) {
                     frame--;
-                    if (frame > 15) {
-                        home1.setIcon(new ImageIcon("home2_282x89.png"));
+                    if (frame > 10) {
+                        home1.setIcon(new SetImg("Button","Home2").get());
                         repaint();
                     } else {
-                        home1.setIcon(new ImageIcon("home1.png"));
+                        home1.setIcon(new SetImg("Button","Home1").get());
                         repaint();
                     }
                 } 
-                if (frame == 14){
+                if (frame == 0){
                     status = "newmenu";
                 }
                 break;  
@@ -86,7 +74,7 @@ class Congrats extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == home1) {
             status = "next";
-            System.out.print("home");
+            System.out.println("home");
         }
     }
 }

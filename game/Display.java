@@ -14,8 +14,9 @@ import java.awt.event.ActionListener;
 public class Display extends JFrame implements ActionListener {
     private Dimension size = new Dimension(1200, 800);
     private Game game;
-    private Component menu;
-    private Component tutorial;
+    private Menu menu;
+    private Tutorial tutorial;
+    private Congrats congrats;
     private Timer time;
     static String status;
     private USound usWelcome;
@@ -54,10 +55,9 @@ public class Display extends JFrame implements ActionListener {
         this.remove(tutorial);
         this.getContentPane().repaint();
     }
-
-    public void endGame(String status) {
-        removeGame();
-        newMenu(status);
+    public void removeCongrats() {
+        this.remove(congrats);
+        this.getContentPane().repaint();
     }
 
     public void newGame() {
@@ -84,6 +84,18 @@ public class Display extends JFrame implements ActionListener {
         SwingUtilities.updateComponentTreeUI(this);
     }
 
+    
+
+    public void newCongrats(String status) {
+        congrats = new Congrats(status, this);
+        this.add(congrats);
+        congrats.requestFocus();
+        SwingUtilities.updateComponentTreeUI(this);
+
+    }
+
+    
+
 
     public void actionPerformed(ActionEvent e) {
         if (Menu.status_tutorial == "newtutorial") {
@@ -102,6 +114,15 @@ public class Display extends JFrame implements ActionListener {
             newMenu("newgame");
             Tutorial.status = "none";
         }
-        
+        if (Game.status == "congrats") {
+            removeGame();
+            newCongrats("none");
+            Game.state_dice = "none";
+        }
+        if (Congrats.status == "newmenu") {
+            removeCongrats();
+            newMenu("newgame");
+            Congrats.status = "none";
+        }
     }
 }

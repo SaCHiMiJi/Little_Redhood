@@ -6,6 +6,7 @@ import javax.swing.*;
 import function.*;
 
 import java.awt.event.*;
+import java.io.ObjectInputFilter.Status;
 import java.awt.*;
 
 
@@ -26,7 +27,8 @@ class Game extends JPanel implements ActionListener {
     //value
     private int framerate = 0;
     private int count_graphics = 0;
-    private String state_dice = "none";
+    static String state_dice = "none";
+    static String status;
     private int frame = 0;
     private int random = 0;
     private boolean usePopup = false;
@@ -46,7 +48,7 @@ class Game extends JPanel implements ActionListener {
 
     //huter value
     protected int hunter_count = 0;
-    protected int hunter_pos = 1;
+    protected int hunter_pos = 3;
     
     // redhood position
     int px_player = 40;
@@ -113,10 +115,11 @@ class Game extends JPanel implements ActionListener {
         usGame.start();    
 
         // |set loop of game
-        time = new Timer(10, this);
+        time = new Timer(6, this);
         time.start();
     }
-        // USound
+
+    // USound
     public void setSounnd(){
         usClick = new USound("click");
         usFootstep = new USound("Footsteps");
@@ -151,7 +154,7 @@ class Game extends JPanel implements ActionListener {
             case "none":
                 break;
             case "next":
-                random = 1;//(int) Math.round(Math.random() * 5 + 1);
+                random = (int) Math.round(Math.random() * 5 + 1);
                 g.drawString("random: " + random, 1000, 50);
                 frame = (random * 25) + 75;
                 state_dice = "beingNext";
@@ -164,8 +167,6 @@ class Game extends JPanel implements ActionListener {
                 repaint();
                 break;
             case "beingNext":
-                count = 27;
-                //usrollDice.stop(true); 
                 if (frame > 0) {
                     frame--;
                     
@@ -194,7 +195,10 @@ class Game extends JPanel implements ActionListener {
                         repaint();
 
                     } else { //animation walk
-                        if (frame % 25 == 0) {
+                        count = 30;
+                        if (count == 30) {
+                            status = "congrats";
+                        } else if (frame % 25 == 0) {
                             usFootstep.start();
                             if (count < 5||(count < 18 && count > 12)||(count < 30 && count > 24)) {
                                 player = new SetImg("Character","Walk","Right").get().getImage();
@@ -209,8 +213,8 @@ class Game extends JPanel implements ActionListener {
                             
                             count++;
                             repaint();
-                            
                         }
+                        
 
                     }
 
