@@ -86,6 +86,7 @@ class Game extends JPanel implements ActionListener {
         btn1.setFocusPainted(false);
         btn1.setContentAreaFilled(false);
         add(btn1);
+
         btn1.addActionListener(this);
 
         btn2 = new JButton(img1);
@@ -107,7 +108,8 @@ class Game extends JPanel implements ActionListener {
         b1.addActionListener(this);
 
         //| playsound
-        usGame.start();    
+        usGame.start();
+        usGame.loop(true);    
 
         // |set loop of game
         time = new Timer(6, this);
@@ -221,37 +223,7 @@ class Game extends JPanel implements ActionListener {
                 break;     
             case("setquiz"):
                 random_pos();
-                if (count == 3){
-                    //correct answer
-                    btn1.setIcon(new SetImg("Question", "5", "q5_114a_132x51","0" ).get());
-                    //wrong answer
-                    btn2.setIcon(new SetImg("Question", "5", "q5_110a_132x51","0" ).get());
-                } else if (count == 8) {
-                    //correct answer
-                    btn1.setIcon(new SetImg("Question", "1", "q1_120a_132x51","0" ).get());
-                    //wrong answer
-                    btn2.setIcon(new SetImg("Question", "1", "q1_140a_132x51","0" ).get());
-                } else if (count == 15){
-                    //correct answer
-                    btn1.setIcon(new SetImg("Question", "2", "q2_35a_132x51","0" ).get());
-                    //wrong answer
-                    btn2.setIcon(new SetImg("Question", "2", "q2_100a_132x51","0" ).get());
-                } else if (count == 17){
-                    //correct answer
-                    btn1.setIcon(new SetImg("Question", "6", "q6_72a","0" ).get());
-                    //wrong answer
-                    btn2.setIcon(new SetImg("Question", "6", "q6_63a","0" ).get());
-                } else if (count == 23){
-                    //correct answer
-                    btn1.setIcon(new SetImg("Question", "3", "q3_10a_132x51","0" ).get());
-                    //wrong answer
-                    btn2.setIcon(new SetImg("Question", "3", "q3_0a_132x51","0" ).get());
-                } else if (count == 28){
-                    //correct answer
-                    btn1.setIcon(new SetImg("Question", "4", "q4_50a_132x51","0" ).get());
-                    //wrong answer
-                    btn2.setIcon(new SetImg("Question", "4", "q4_43a_132x51","0" ).get());
-                }
+                resetbutton();
                 state_dice = "ans";
                 System.out.println("quiz");
                 repaint();
@@ -259,7 +231,15 @@ class Game extends JPanel implements ActionListener {
             case("ans"):
                 // System.out.println(frame);
                 usePopup = true;
-                if(count == 3){
+                if (frame > 0) {
+                    frame--;
+                    if (frame > 10) {
+                        changebutton();
+                    } else {
+                        resetbutton();
+                    }
+                }
+                else if(count == 3){
                     if (Anw == 1) {
                         count = 9;
                         px_player = map_p[count][0];
@@ -302,7 +282,6 @@ class Game extends JPanel implements ActionListener {
                         py_player = map_p[count][1];
                         count++; 
                     } 
-                    // hunter action
                 }
                 
                 if(Anw_click == "done"){
@@ -355,12 +334,14 @@ class Game extends JPanel implements ActionListener {
             System.out.println("======- btn1 -======");
             Anw = 1;
             Anw_click = "done";
+            frame = 20;
         }
         if (e.getSource() == btn2) {
             usClick.start();
             System.out.println("======- btn2 -======");
             Anw = 2;
             Anw_click = "done";
+            frame = 20;
         }
 
         
@@ -464,5 +445,87 @@ class Game extends JPanel implements ActionListener {
         }
     }
 
+    public void resetbutton() {
+        if (count == 3){
+            //correct answer
+            btn1.setIcon(new SetImg("Question", "5", "q5_114a_132x51","0" ).get());
+            //wrong answer
+            btn2.setIcon(new SetImg("Question", "5", "q5_110a_132x51","0" ).get());
+        } else if (count == 8) {
+            //correct answer
+            btn1.setIcon(new SetImg("Question", "1", "q1_120a_132x51","0" ).get());
+            //wrong answer
+            btn2.setIcon(new SetImg("Question", "1", "q1_140a_132x51","0" ).get());
+        } else if (count == 15){
+            //correct answer
+            btn1.setIcon(new SetImg("Question", "2", "q2_35a_132x51","0" ).get());
+            //wrong answer
+            btn2.setIcon(new SetImg("Question", "2", "q2_100a_132x51","0" ).get());
+        } else if (count == 17){
+            //correct answer
+            btn1.setIcon(new SetImg("Question", "6", "q6_72a","0" ).get());
+            //wrong answer
+            btn2.setIcon(new SetImg("Question", "6", "q6_63a","0" ).get());
+        } else if (count == 23){
+            //correct answer
+            btn1.setIcon(new SetImg("Question", "3", "q3_10a_132x51","0" ).get());
+            //wrong answer
+            btn2.setIcon(new SetImg("Question", "3", "q3_0a_132x51","0" ).get());
+        } else if (count == 28){
+            //correct answer
+            btn1.setIcon(new SetImg("Question", "4", "q4_50a_132x51","0" ).get());
+            //wrong answer
+            btn2.setIcon(new SetImg("Question", "4", "q4_43a_132x51","0" ).get());
+        }
+    }
+    public void changebutton() {
+        if (count == 3){
+            //correct answer
+            if (Anw == 1) {
+                btn1.setIcon(new SetImg("Question", "5", "q5_114b_132x51","0" ).get());
+            } else {//wrong answer
+                btn2.setIcon(new SetImg("Question", "5", "q5_110b_132x51","0" ).get());
+            }
+        } else if (count == 8) {
+            //correct answer
+            if (Anw == 1) {
+                btn1.setIcon(new SetImg("Question", "1", "q1_120b_132x51","0" ).get());
+            } else {//wrong answer
+                btn2.setIcon(new SetImg("Question", "1", "q1_140b_132x51","0" ).get());
+            }
+        } else if (count == 15){
+            //correct answer
+            if (Anw == 1) {//wrong answer
+                btn1.setIcon(new SetImg("Question", "2", "q2_35b_132x51","0" ).get());
+            } else {
+                btn2.setIcon(new SetImg("Question", "2", "q2_100b_132x51","0" ).get());
+            }
+        } else if (count == 17){
+            //correct answer
+            if (Anw == 1) {
+                btn1.setIcon(new SetImg("Question", "6", "q6_72b","0" ).get());
+            } else {
+                btn2.setIcon(new SetImg("Question", "6", "q6_63b","0" ).get());
+            }
+            //wrong answer
+        } else if (count == 23){
+            //correct answer
+            if (Anw == 1) {
+                btn1.setIcon(new SetImg("Question", "3", "q3_10b_132x51","0" ).get());
+            } else {//wrong answer
+                btn2.setIcon(new SetImg("Question", "3", "q3_0b_132x51","0" ).get());
+            }
+        } else if (count == 28){
+            //correct answer
+            if (Anw == 1) {
+                btn1.setIcon(new SetImg("Question", "4", "q4_50b_132x51","0" ).get());
+            } else {//wrong answer
+                btn2.setIcon(new SetImg("Question", "4", "q4_43b_132x51","0" ).get());
+            }
+        }
+    }
+    public void btn_click() {
+        
+    }
 }
 

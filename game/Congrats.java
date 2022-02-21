@@ -3,6 +3,7 @@ package game;
 import javax.swing.*;
 
 import function.SetImg;
+import function.USound;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -11,17 +12,22 @@ class Congrats extends JPanel implements ActionListener {
     ImageIcon congrats,home,play_a;
     Image background;
     static JButton home1,playagain;
-    static String status = "";
+    static String status_home = "";
+    static String status_playagian = "";
     private int frame = 0;
     private Timer time;
+    USound usClick;
     Display display;
 
     Congrats () {}
 
     Congrats(String status,Display display) {
-
+        
         setDefault();
         setBackground(Color.white);
+
+        //setsound
+        usClick = new USound("click");
 
         //set img
         play_a = new SetImg("Button", "replay1").get(); 
@@ -64,12 +70,12 @@ class Congrats extends JPanel implements ActionListener {
         super.paintComponent(g);
         g.drawImage(background, 0, 0, 1200, 800, this);
 
-        switch(status){  
+        switch(status_home){  
             case("none"):
                 break;
             case ("next") :
                 frame = 20;
-                status = "event";
+                status_home = "event";
                 break;
             case ("event") :
                 if (frame > 0) {
@@ -83,7 +89,30 @@ class Congrats extends JPanel implements ActionListener {
                     }
                 } 
                 if (frame == 0){
-                    status = "newmenu";
+                    status_home = "newmenu";
+                }
+                break;  
+        }
+        switch(status_playagian){  
+            case("none"):
+                break;
+            case ("next") :
+                frame = 20;
+                status_playagian = "event";
+                break;
+            case ("event") :
+                if (frame > 0) {
+                    frame--;
+                    if (frame > 10) {
+                        playagain.setIcon(new SetImg("Button","replay2").get());
+                        repaint();
+                    } else {
+                        playagain.setIcon(new SetImg("Button","replay1").get());
+                        repaint();
+                    }
+                } 
+                if (frame == 0){
+                    status_playagian = "newgame";
                 }
                 break;  
         }
@@ -91,8 +120,14 @@ class Congrats extends JPanel implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == home1) {
-            status = "next";
+            status_home = "next";
             System.out.println("home");
+            usClick.start();
+        }
+        if (e.getSource() == playagain) {
+            status_playagian = "next";
+            System.out.println("playagian");
+            usClick.start();
         }
     }
 }

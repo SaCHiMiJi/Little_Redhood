@@ -114,10 +114,15 @@ public class Display extends JFrame implements ActionListener {
             newCongrats("none");
             Game.status = "none";
         }
-        if (Congrats.status == "newmenu") {
+        if (Congrats.status_home == "newmenu") {
             removeCongrats();
             newMenu("newgame");
-            Congrats.status = "none";
+            Congrats.status_home = "none";
+        }
+        if (Congrats.status_playagian == "newgame") {
+            removeCongrats();
+            newGame();
+            Congrats.status_playagian = "none";
         }
     }
 }
