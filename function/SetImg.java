@@ -3,7 +3,7 @@ package function;
 import javax.swing.ImageIcon;
 
 public class SetImg {
-    private String baseLocate = "/Users/KruJu/Desktop/work/project/image";
+    private String baseLocate = "/Users/KruJu/Desktop/work/project/src/image";
     private ImageIcon image;
 
     public SetImg(String type, String fileName) {

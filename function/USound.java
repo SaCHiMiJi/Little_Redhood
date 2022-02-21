@@ -11,7 +11,7 @@ import javax.sound.sampled.SourceDataLine;
 
 class Play extends USound implements Runnable {
     
-    private String baseLocate = "/Users/KruJu/Desktop/work/project/sound/";
+    private String baseLocate = "/Users/KruJu/Desktop/work/project/src/sound/";
     private File soundFile;
     private USound us;
 
