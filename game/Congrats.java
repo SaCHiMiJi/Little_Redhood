@@ -16,7 +16,7 @@ class Congrats extends JPanel implements ActionListener {
     static String status_playagian = "";
     private int frame = 0;
     private Timer time;
-    USound usClick;
+    USound usClick,usCongrat;
     Display display;
 
     Congrats () {}
@@ -28,6 +28,7 @@ class Congrats extends JPanel implements ActionListener {
 
         //setsound
         usClick = new USound("click");
+        usCongrat = new USound("Wairoonkokowa");
 
         //set img
         play_a = new SetImg("Button", "replay1").get(); 
@@ -57,6 +58,10 @@ class Congrats extends JPanel implements ActionListener {
         //time loop
         time = new Timer(6, this);
         time.start();
+        
+        //play music
+        usCongrat.start();
+        usCongrat.loop(true);
     }
 
     public void setDefault() {
@@ -89,6 +94,7 @@ class Congrats extends JPanel implements ActionListener {
                     }
                 } 
                 if (frame == 0){
+                    usCongrat.stop(true);
                     status_home = "newmenu";
                 }
                 break;  
@@ -112,6 +118,7 @@ class Congrats extends JPanel implements ActionListener {
                     }
                 } 
                 if (frame == 0){
+                    usCongrat.stop(true);
                     status_playagian = "newgame";
                 }
                 break;  

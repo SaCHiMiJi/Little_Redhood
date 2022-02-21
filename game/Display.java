@@ -2,7 +2,7 @@ package game;
 
 import javax.swing.*;
 
-import function.USound;
+import function.*;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -30,6 +30,7 @@ public class Display extends JFrame implements ActionListener {
 
     void setting() {
         this.setTitle("Little Redhood");
+        this.setIconImage(new SetImg("Icon","Icon").get().getImage());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setSize(size);
@@ -73,7 +74,8 @@ public class Display extends JFrame implements ActionListener {
         time.start();
 
         // |set sound welcome
-        usWelcome = new USound("Neverland");
+        usWelcome = new USound("menuBMG");
+        usWelcome.loop(true);
         usWelcome.start();
     }
 

@@ -8,7 +8,7 @@ import java.awt.*;
 class Game extends JPanel implements ActionListener {
 
     //set sound
-    private USound usFootstep,usClick,usGame,usrollDice;
+    private USound usFootstep,usClick,usGame,usrollDice,usCorrect,usWrong;
     //set type img
     ImageIcon Dice_animation, character_stand, OG_dice,img2,Bg_img;
     ImageIcon img1;
@@ -120,8 +120,10 @@ class Game extends JPanel implements ActionListener {
     public void setSounnd(){
         usClick = new USound("click");
         usFootstep = new USound("Footsteps");
-        usGame = new USound("enchantedforest");
+        usGame = new USound("gameBMG");
         usrollDice = new USound("rolldice");
+        usCorrect = new USound("answercorrect");
+        usWrong = new USound("answerincorrect");
     }
 
     public void paintComponent(Graphics g) {
@@ -194,6 +196,7 @@ class Game extends JPanel implements ActionListener {
                             } else {
                                 player = new SetImg("Character","Walk","Up").get().getImage();
                             }
+                            update_pos();
                             px_player = map_p[count][0];
                             py_player = map_p[count][1];
                             System.out.println(px_player + "\n" + py_player);
@@ -218,8 +221,8 @@ class Game extends JPanel implements ActionListener {
                     repaint();
                     state_dice = "none";
                 }
-                System.out.print(count);
-                System.out.println("beingNext");
+                //System.out.print(count);
+                //System.out.println("beingNext");
                 break;     
             case("setquiz"):
                 random_pos();
@@ -245,6 +248,9 @@ class Game extends JPanel implements ActionListener {
                         px_player = map_p[count][0];
                         py_player = map_p[count][1];
                         count++;
+                        btn_click();
+                    } else {
+                        btn_click();
                     }
                 } else if (count == 8) {
                     if (Anw == 2) {
@@ -252,6 +258,9 @@ class Game extends JPanel implements ActionListener {
                         px_player = map_p[count][0];
                         py_player = map_p[count][1];
                         count++;
+                        btn_click();
+                    } else {
+                        btn_click();
                     }
                 } else if (count == 15){
                     if (Anw == 2) {
@@ -259,6 +268,9 @@ class Game extends JPanel implements ActionListener {
                         px_player = map_p[count][0];
                         py_player = map_p[count][1];
                         count++;
+                        btn_click();
+                    } else {
+                        btn_click();
                     }
                 } else if(count == 17){
                     if (Anw == 1) {
@@ -266,7 +278,9 @@ class Game extends JPanel implements ActionListener {
                         px_player = map_p[count][0];
                         py_player = map_p[count][1];
                         count++;
-                        update_pos();  
+                        btn_click();
+                    } else {
+                        btn_click();
                     }
                 } else if (count == 23){
                     if (Anw == 2) {
@@ -274,6 +288,9 @@ class Game extends JPanel implements ActionListener {
                         px_player = map_p[count][0];
                         py_player = map_p[count][1];
                         count++;
+                        btn_click();
+                    } else {
+                        btn_click();
                     }
                 } else if (count == 28){
                     if (Anw == 2) {
@@ -281,16 +298,10 @@ class Game extends JPanel implements ActionListener {
                         px_player = map_p[count][0];
                         py_player = map_p[count][1];
                         count++; 
-                    } 
-                }
-                
-                if(Anw_click == "done"){
-                    btn1.setIcon(img1);
-                    btn2.setIcon(img1);
-                    state_dice = "beingNext";
-                    usePopup = false;
-                    Anw = 3;
-                    Anw_click = "";
+                        btn_click();
+                    }  else {
+                        btn_click();
+                    }
                 }
                 break;
         }
@@ -309,43 +320,43 @@ class Game extends JPanel implements ActionListener {
             } else if(count == 28){
                 Quiz = new SetImg("Question", "4", "q4_295_68","0").get().getImage();
             } 
-            
             popup(g);
             repaint();
-            
         }
     }
 
     private void popup(Graphics g){
         // inside here
-        //System.out.println("paint");
         g.drawImage(Quiz, 853, 544, this);
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == b1) {
+        if (state_dice == "none") {//
+            if (e.getSource() == b1) {
             usClick.start();
             //usePopup = true;
             System.out.println("roll");
             state_dice = "next";
+            }
         }
+        
         if (e.getSource() == btn1) {
-            usClick.play();
+            usClick.start();
             System.out.println("======- btn1 -======");
             Anw = 1;
             Anw_click = "done";
             frame = 20;
+            usCorrect.start();
         }
+
         if (e.getSource() == btn2) {
             usClick.start();
             System.out.println("======- btn2 -======");
             Anw = 2;
             Anw_click = "done";
             frame = 20;
+            usWrong.start();
         }
-
-        
-
     }
     
     public int[][] player_position() {// ตำแหน่งแต่ละช่องในแมพ
@@ -408,6 +419,7 @@ class Game extends JPanel implements ActionListener {
         }
         return position;
     }
+
     public void random_pos(){
         int ran = (int) Math.round(Math.random()*1 + 1);
         if (ran == 1) {
@@ -420,8 +432,7 @@ class Game extends JPanel implements ActionListener {
         //wolf part
         if (count > wolf_pos) {
             wolf_count++;
-            px_wolf = wolf_p[wolf_count][0];
-            py_wolf = wolf_p[wolf_count][1];
+            
             if (wolf_count == 1) {
                 wolf_pos = 15;
             } else if (wolf_count == 2){
@@ -431,17 +442,25 @@ class Game extends JPanel implements ActionListener {
             } else {
                 Wolf = new ImageIcon().getImage();
             }
+            if (wolf_count < 4) {
+                px_wolf = wolf_p[wolf_count][0];
+                py_wolf = wolf_p[wolf_count][1];
+            }
+            
         }
         //huter part
         if (count > hunter_pos) {
             hunter_count++;
-            px_hunter = hunter_p[hunter_count][0];
-            py_hunter = hunter_p[hunter_count][1];
             if (hunter_count == 1) {
                 hunter_pos = 17;
             } else {
                 Hunter = new ImageIcon().getImage();
             }
+            if (hunter_count < 2) {
+                px_hunter = hunter_p[hunter_count][0];
+                py_hunter = hunter_p[hunter_count][1];
+            }
+            
         }
     }
 
@@ -478,6 +497,7 @@ class Game extends JPanel implements ActionListener {
             btn2.setIcon(new SetImg("Question", "4", "q4_43a_132x51","0" ).get());
         }
     }
+
     public void changebutton() {
         if (count == 3){
             //correct answer
@@ -524,8 +544,16 @@ class Game extends JPanel implements ActionListener {
             }
         }
     }
+    
     public void btn_click() {
-        
+        if(Anw_click == "done"){
+            btn1.setIcon(img1);
+            btn2.setIcon(img1);
+            state_dice = "beingNext";
+            usePopup = false;
+            Anw = 3;
+            Anw_click = "";
+        }
     }
 }
 
