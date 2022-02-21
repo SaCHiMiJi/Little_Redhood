@@ -139,7 +139,7 @@ class Game extends JPanel implements ActionListener {
         g.drawImage(Hunter, px_hunter, py_hunter, this);
         g.drawImage(player, px_player, py_player, this);
 
-        g.drawString(count_graphics + "", 1000, 30);
+        //g.drawString(count_graphics + "", 1000, 30);
 
         switch (state_dice) {
             case "none":
